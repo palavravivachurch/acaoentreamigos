@@ -1,17 +1,18 @@
-import type {NextApiRequest, NextApiResponse} from "next";
+import {NextResponse} from "next/server";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "POST") {
-        return res.status(405).json({error: "Método não permitido"});
-    }
+export async function POST(request: Request) {
+    const body = await request.json();
+    const {nome, email, telefone} = body;
 
-    const {nome, email, telefone} = req.body;
+    // Faça sua lógica aqui...
 
-    // Aqui poderia integrar com sua API real
-    // Simulação de resposta:
-    res.status(200).json({
-        pix: "pix@amoremacao.org",
-        valor: "50,00",
-        descricao: `Contribuição - ${nome}`,
-    });
+    return NextResponse.json({
+            "timestampCriacaoSolicitacao": "2021-11-11T14:34:31.24-03:00",
+            "estadoSolicitacao": "ATIVA",
+            "codigoConciliacaoSolicitante": "ogyevSKPZSj770FYgbf1Ub1GavxgOpvPKy9",
+            "numeroVersaoSolicitacaoPagamento": "0",
+            "linkQrCode": "qrcodepix-h.bb.com.br/pix/v2/38472887-c0e5-41db-b1c6-20cc3e6086e5",
+            "qrCode": "00020101021226870014br.gov.bcb.pix2565qrcodepix-h.bb.com.br/pix/v2/38472887-c0e5-41db-b1c6-20cc3e6086e55204000053039865802BR5925SECRETARIA DA RECEITA FED6008BRASILIA62070503***63043C35"
+        }
+    );
 }

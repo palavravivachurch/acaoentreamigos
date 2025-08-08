@@ -10,7 +10,7 @@ export default function ParticiparPage() {
         telefone: "",
     });
     const [loading, setLoading] = useState(false);
-    const [pagamento, setPagamento] = useState<null | any>(null);
+    const [pagamento, setPagamento] = useState<null | Pagamentos.BBPix>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({...form, [e.target.name]: e.target.value});
@@ -97,9 +97,9 @@ export default function ParticiparPage() {
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
                             Dados para Contribuição
                         </Typography>
-                        <Typography>Chave Pix: {pagamento.pix}</Typography>
-                        <Typography>Valor: R$ {pagamento.valor}</Typography>
-                        <Typography>Descrição: {pagamento.descricao}</Typography>
+                        <Typography>Chave Pix: {pagamento.qrCode}</Typography>
+                        <Typography>Valor: R$ 20</Typography>
+                        <Typography>Descrição: Pix</Typography>
                     </Box>
                 )}
             </Paper>
