@@ -1,0 +1,142 @@
+/* 🎨 Estilo limpo para Ação Entre Amigos */
+/* Fundo branco (#ffffff) + texto preto (#000000) + fonte Gotham */
+
+.page {
+    display: grid;
+    grid-template-rows: 20px 1fr 20px;
+    align-items: center;
+    justify-items: center;
+    min-height: 100svh;
+    padding: 80px;
+    gap: 64px;
+
+    background-color: #ffffff; /* Fundo branco */
+    color: #000000; /* Texto preto */
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* 🧠 Conteúdo principal */
+.main {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    grid-row-start: 2;
+}
+
+.main ol {
+    font-family: 'Gotham', 'Helvetica Neue', Arial, sans-serif;
+    padding-left: 0;
+    margin: 0;
+    font-size: 14px;
+    line-height: 24px;
+    letter-spacing: -0.01em;
+    list-style-position: inside;
+}
+
+.main li:not(:last-of-type) {
+    margin-bottom: 8px;
+}
+
+.main code {
+    background: rgba(0, 0, 0, 0.08);
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #000000;
+}
+
+/* 🎯 Botões */
+.ctas {
+    display: flex;
+    gap: 16px;
+}
+
+.ctas a {
+    appearance: none;
+    border-radius: 128px;
+    height: 48px;
+    padding: 0 24px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Botão principal: fundo preto, texto branco */
+a.primary {
+    background: #000000;
+    color: #ffffff;
+}
+
+a.primary:hover {
+    background: #333333;
+}
+
+/* Botão secundário: borda preta, texto preto */
+a.secondary {
+    background: transparent;
+    border-color: #000000;
+    color: #000000;
+}
+
+a.secondary:hover {
+    background: #000000;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+/* 🔗 Rodapé */
+.footer {
+    grid-row-start: 3;
+    display: flex;
+    gap: 24px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.footer a {
+    color: #000000;
+    transition: text-decoration 0.2s ease;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+/* 📱 Responsividade */
+@media (max-width: 600px) {
+    .page {
+        padding: 32px;
+        padding-bottom: 80px;
+    }
+
+    .main {
+        align-items: center;
+    }
+
+    .main ol {
+        text-align: center;
+    }
+
+    .ctas {
+        flex-direction: column;
+    }
+
+    .ctas a {
+        font-size: 14px;
+        height: 40px;
+        padding: 0 16px;
+    }
+
+    .footer {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
+}
