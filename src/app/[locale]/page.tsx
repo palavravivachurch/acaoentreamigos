@@ -60,7 +60,7 @@ export default function AcaoEntreAmigosPage() {
                         <IconButton edge="start" color="inherit" aria-label="menu" sx={{display: {sm: 'none'}}}>
                             <MenuIcon/>
                         </IconButton>
-                        {/*<Image src="/logos/amoremacao.png" alt="Logo Amor em Ação" width={40} height={40}/>*/}
+                        <Image src="/logos/logoacaoentreamigos.png" alt="Logo Amor em Ação" width={40} height={40}/>
                     </Box>
                     <Box display="flex" alignItems="center" gap={2}>
                         <Globe/>
@@ -98,9 +98,9 @@ export default function AcaoEntreAmigosPage() {
                     animate={{opacity: 1, y: 0}}
                     transition={{duration: 0.8}}
                 >
-                    {/* Logo central (pode ser logo da ação) */}
+                    {/*Logo central (pode ser logo da ação)*/}
                     {/*<Box textAlign="center" mb={4}>*/}
-                    {/*    <Image src="/logos/amoremacao.png" width={200} height={200} alt="Logo Amor em Ação"/>*/}
+                    {/*    <Image src="/logos/logoacaoentreamigos.png" width={200} height={200} alt="Logo Amor em Ação"/>*/}
                     {/*</Box>*/}
 
                     <Typography variant="h3" align="center" fontWeight="bold" gutterBottom>
@@ -137,11 +137,11 @@ export default function AcaoEntreAmigosPage() {
 
                     <Box textAlign="center" mt={4}>
                         <Button variant="contained" size="large" sx={{
-                            px: 6,            // padding horizontal maior (espaço nas laterais)
-                            py: 2.5,          // padding vertical maior (altura do botão)
-                            fontSize: '3rem',  // fonte maior
-                            minWidth: 240,    // largura mínima para deixar ele grandão
-                            borderRadius: 3,  // borda mais arredondada, opcional
+                            px: {xs: 3, sm: 4, md: 6},         // padding horizontal: menor no celular, maior no desktop
+                            py: {xs: 1.5, sm: 2, md: 2.5},     // padding vertical ajustado conforme tela
+                            fontSize: {xs: '2rem', sm: '3rem', md: '3rem'}, // fonte cresce com o tamanho da tela
+                            minWidth: {xs: 180, sm: 200, md: 260},           // largura mínima também responsiva
+                            borderRadius: 3,
                         }} onClick={() => router.push('/participar')}>
                             {t("cta")}
                         </Button>

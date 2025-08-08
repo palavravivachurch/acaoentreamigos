@@ -5,7 +5,6 @@ export async function POST(request: Request) {
     const {nome, email, telefone} = body;
 
     // Faça sua lógica aqui...
-
     return NextResponse.json({
             "timestampCriacaoSolicitacao": "2021-11-11T14:34:31.24-03:00",
             "estadoSolicitacao": "ATIVA",

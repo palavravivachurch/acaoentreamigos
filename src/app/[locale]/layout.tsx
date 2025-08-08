@@ -1,33 +1,33 @@
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
+import {hasLocale, NextIntlClientProvider} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import React from "react";
 
 export const metadata = {
-  title: 'Projeto ELO | Capacitação, Carreira e Comunidade',
-  description: 'O ELO é um ecossistema que conecta pessoas a oportunidades de desenvolvimento, trabalho, empreendedorismo e propósito.',
-  openGraph: {
-    title: 'Projeto ELO',
-    description: 'Capacitação, Carreira, Trabalho e Comunidade.',
-    url: 'https://projetoelo.org', // ou o domínio real
-    siteName: 'Projeto ELO',
-    images: [
-      {
-        url: 'https://projetoelo.org/og-image.jpg', // imagem real hospedada
-        width: 1200,
-        height: 630,
-        alt: 'Logo Projeto ELO com fundo azul profundo',
-      },
-    ],
-    locale: 'pt_BR',
-    type: 'website',
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Projeto ELO',
-    description: 'Capacitação, Carreira, Trabalho e Comunidade.',
-    images: ['https://projetoelo.org/og-image.jpg'],
-  },
+    title: 'Ação Entre Amigos | Solidariedade e Contribuição',
+    description: 'Participe da Ação Entre Amigos e ajude a instituição Amor em Ação a transformar vidas. Contribua e concorra a uma Moto Honda CG 125!',
+    openGraph: {
+        title: 'Ação Entre Amigos',
+        description: 'Contribua para a Amor em Ação e concorra a uma Moto Honda CG 125.',
+        url: 'https://aea.projetoelo.org', // ajuste para seu domínio real
+        siteName: 'Ação Entre Amigos',
+        images: [
+            {
+                url: 'https://aea.projetoelo.org/og-image.jpg', // imagem real do projeto
+                width: 1200,
+                height: 630,
+                alt: 'Ação Entre Amigos - Solidariedade e Prêmio Moto CG',
+            },
+        ],
+        locale: 'pt_BR',
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Ação Entre Amigos',
+        description: 'Contribua para a Amor em Ação e concorra a uma Moto Honda CG 125.',
+        images: ['https://acaointreiamigos.org/og-image.jpg'],
+    },
 };
 
 
