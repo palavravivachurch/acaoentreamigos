@@ -1,23 +1,47 @@
 "use client";
 
 import {useState} from "react";
-import {Box, Button, CircularProgress, Container, Paper, TextField, Typography,} from "@mui/material";
+import {
+    Box,
+    Button,
+    Checkbox,
+    CircularProgress,
+    Container,
+    FormControlLabel,
+    Paper,
+    TextField,
+    Typography,
+} from "@mui/material";
 
 export default function ParticiparPage() {
     const [form, setForm] = useState({
         nome: "",
         email: "",
         telefone: "",
+        aceitouLGPD: false,
     });
     const [loading, setLoading] = useState(false);
-    const [pagamento, setPagamento] = useState<null | Pagamentos.BBPix>(null);
+    const [pagamento, setPagamento] = useState<null | { qrCode: string }>(null);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm({...form, [e.target.name]: e.target.value});
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        // @ts-ignore
+        const {name, value, type, checked} = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: type === "checkbox" ? checked : value,
+        }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!form.aceitouLGPD) {
+            alert("Você precisa aceitar os termos da LGPD para continuar.");
+            return;
+        }
+
         setLoading(true);
         setPagamento(null);
 
@@ -59,6 +83,7 @@ export default function ParticiparPage() {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        disabled={pagamento !== null}
                     />
                     <TextField
                         fullWidth
@@ -69,15 +94,37 @@ export default function ParticiparPage() {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        disabled={pagamento !== null}
                     />
                     <TextField
                         fullWidth
-                        label="Telefone"
+                        label="Telefone/Whatsapp"
                         name="telefone"
                         value={form.telefone}
                         onChange={handleChange}
                         margin="normal"
                         required
+                        disabled={pagamento !== null}
+                    />
+
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={form.aceitouLGPD}
+                                onChange={handleChange}
+                                name="aceitouLGPD"
+                                color="primary"
+                                required
+                            />
+                        }
+                        disabled={pagamento !== null}
+                        sx={{
+                            "& .MuiFormControlLabel-label": {
+                                fontSize: '0.8rem',
+                                lineHeight: 0.9,
+                            }
+                        }}
+                        label="Aceito os termos da LGPD, autorizando o uso e compartilhamento dos meus dados com instituições conforme previsto na legislação vigente."
                     />
 
                     <Box textAlign="center" mt={3}>
@@ -85,7 +132,13 @@ export default function ParticiparPage() {
                             variant="contained"
                             size="large"
                             type="submit"
-                            disabled={loading}
+                            disabled={loading || pagamento !== null} sx={{
+                            backgroundColor: '#c62828',
+                            color: '#fff',
+                            '&:hover': {
+                                backgroundColor: '#b71c1c',
+                            },
+                        }}
                         >
                             {loading ? <CircularProgress size={24} color="inherit"/> : "Enviar"}
                         </Button>
@@ -100,6 +153,9 @@ export default function ParticiparPage() {
                         <Typography>Chave Pix: {pagamento.qrCode}</Typography>
                         <Typography>Valor: R$ 20</Typography>
                         <Typography>Descrição: Pix</Typography>
+                        <Typography mt={2} color="text.secondary" fontStyle="italic">
+                            Após a confirmação do pagamento, seu número será enviado via WhatsApp e/ou e-mail.
+                        </Typography>
                     </Box>
                 )}
             </Paper>

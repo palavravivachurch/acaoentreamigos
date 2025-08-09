@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  nome         String
+  email        String   @unique
+  senha        String
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+}
+
+model Participante {
+  id          String   @id @default(cuid())
+  nome        String
+  telefone    String
+  email       String? // opcional
+  aceitouLGPD Boolean
+  numero      Int      @unique
+  criadoEm    DateTime @default(now())
+
+  pagamento   Pagamento? @relation(fields: [pagamentoId], references: [id])
+  pagamentoId String?    @unique
+}
+
+model Pagamento {
+  id             String @id @default(cuid())
+  participanteId String @unique
+
+  valor        Float
+  status       PagamentoStatus @default(PENDENTE)
+  metodo       String
+  confirmadoEm DateTime?
+  Participante Participante?
+}
+
+enum PagamentoStatus {
+  PENDENTE
+  CONFIRMADO
+}
+
+model Sorteio {
+  id             String        @id @default(cuid())
+  titulo         String
+  descricao      String?
+  dataSorteio    DateTime
+  status         SorteioStatus @default(AGUARDANDO)
+  numeroVencedor Int?
+}
+
+enum SorteioStatus {
+  AGUARDANDO
+  REALIZADO
+  CANCELADO
+}

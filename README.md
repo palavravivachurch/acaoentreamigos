@@ -46,6 +46,16 @@ Construído com:
 
 ---
 
+## Documentação do Banco de Dados
+
+Para detalhes completos sobre o modelo do banco de dados, entidades, relacionamentos e esquema Prisma, acesse a
+documentação dedicada:
+
+📂 [prisma/README.md — Documentação do Banco de Dados](./prisma/README.md)
+*Neste arquivo você encontra o esquema atualizado, descrição de cada model, enumerações e fluxo de dados do sistema.*
+
+---
+
 ## ⚙️ Instalação e Uso
 
 ### 1️⃣ Clonar o repositório

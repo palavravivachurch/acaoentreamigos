@@ -134,14 +134,17 @@ export default function AcaoEntreAmigosPage() {
                             }}
                         />
                     </Box>
-
                     <Box textAlign="center" mt={4}>
                         <Button variant="contained" size="large" sx={{
                             px: {xs: 3, sm: 4, md: 6},         // padding horizontal: menor no celular, maior no desktop
                             py: {xs: 1.5, sm: 2, md: 2.5},     // padding vertical ajustado conforme tela
                             fontSize: {xs: '2rem', sm: '3rem', md: '3rem'}, // fonte cresce com o tamanho da tela
                             minWidth: {xs: 180, sm: 200, md: 260},           // largura mínima também responsiva
-                            borderRadius: 3,
+                            borderRadius: 3, backgroundColor: '#c62828',
+                            color: '#fff',
+                            '&:hover': {
+                                backgroundColor: '#b71c1c',
+                            }
                         }} onClick={() => router.push('/participar')}>
                             {t("cta")}
                         </Button>
