@@ -1,6 +1,7 @@
 import createNextIntlPlugin from "next-intl/plugin";
 
 import {FlatCompat} from '@eslint/eslintrc'
+import {NextConfig} from "next";
 
 const compat = new FlatCompat({
     // import.meta.dirname is available after Node.js v20.11.0
@@ -8,7 +9,7 @@ const compat = new FlatCompat({
 
 })
 
-const nextConfig = {
+const nextConfig: NextConfig = {
     eslint: {
         // Warning: This allows production builds to successfully complete even if
         // your project has ESLint errors.
