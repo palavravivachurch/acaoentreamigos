@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "public"."PagamentoStatus" AS ENUM ('PENDENTE', 'CONFIRMADO');
+CREATE TYPE "public"."PagamentoStatus" AS ENUM ('PENDENTE', 'CONFIRMADO', 'CANCELADO');
 
 -- CreateEnum
 CREATE TYPE "public"."SorteioStatus" AS ENUM ('AGUARDANDO', 'REALIZADO', 'CANCELADO');
@@ -38,6 +38,7 @@ CREATE TABLE "public"."Pagamento" (
     "status" "public"."PagamentoStatus" NOT NULL DEFAULT 'PENDENTE',
     "metodo" TEXT NOT NULL,
     "qrCodePix" TEXT,
+    "txid" TEXT,
     "confirmadoEm" TIMESTAMP(3),
 
     CONSTRAINT "Pagamento_pkey" PRIMARY KEY ("id")
