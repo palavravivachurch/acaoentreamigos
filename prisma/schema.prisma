@@ -44,6 +44,7 @@ model Pagamento {
   status       PagamentoStatus @default(PENDENTE)
   metodo       String
   qrCodePix    String?
+  txid         String?
   confirmadoEm DateTime?
   Participante Participante?
 }
@@ -57,6 +58,7 @@ model Numero {
 enum PagamentoStatus {
   PENDENTE
   CONFIRMADO
+  CANCELADO
 }
 
 model Sorteio {
