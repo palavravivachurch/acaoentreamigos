@@ -12,6 +12,7 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
+import {QRCode} from "react-qrcode-logo";
 
 export default function ParticiparPage() {
     const [form, setForm] = useState({
@@ -146,16 +147,53 @@ export default function ParticiparPage() {
                 </Box>
 
                 {pagamento && (
-                    <Box mt={4}>
-                        <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    <Box mt={4} display="flex"
+                         flexDirection="column"
+                         alignItems="center"
+                         textAlign="center">
+                        <Typography variant="h4" fontWeight="bold" gutterBottom>
                             Dados para Contribuição
                         </Typography>
-                        <Typography>Chave Pix: {pagamento.qrCode}</Typography>
-                        <Typography>Valor: R$ 20</Typography>
-                        <Typography>Descrição: Pix</Typography>
+                        <Typography variant="h4">Valor: R$ 20</Typography>
+                        <Typography variant="h6" fontWeight="bold" gutterBottom>Chave Pix:</Typography>
+                        <Typography>{pagamento.qrCode}</Typography>
+                        <Typography variant="h6" fontWeight="bold" gutterBottom>QR Code:</Typography>
+                        <QRCode value={pagamento.qrCode} logoImage={'/logos/logoamoremacaopreta.png'}
+                                size={300}
+                                removeQrCodeBehindLogo
+                                logoPaddingStyle='circle'
+                                logoWidth={300 * 0.3}/>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                            onClick={() => navigator.clipboard.writeText(pagamento.qrCode)}
+                            sx={{mt: 1}}
+                        >
+                            Copiar Pix
+                        </Button>
+                        {/* Novo texto de validade */}
+                        <Typography mt={2} color="text.secondary" fontWeight="bold">
+                            Código válido por 2 horas.
+                        </Typography>
                         <Typography mt={2} color="text.secondary" fontStyle="italic">
                             Após a confirmação do pagamento, seu número será enviado via WhatsApp e/ou e-mail.
                         </Typography>
+                        {/* Botão para contato WhatsApp */}
+                        <Button
+                            variant="contained"
+                            color="success"
+                            sx={{mt: 2}}
+                            // component={Link}
+                            //@ts-ignore
+                            href={`https://wa.me/554888038556?text=${encodeURIComponent(
+                                'Olá, gostaria de fazer um pagamento em dinheiro. Podemos conversar?'
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            Pagar em dinheiro? Fale conosco no WhatsApp
+                        </Button>
                     </Box>
                 )}
             </Paper>

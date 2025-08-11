@@ -23,7 +23,7 @@ CREATE TABLE "public"."Participante" (
     "telefone" TEXT NOT NULL,
     "email" TEXT,
     "aceitouLGPD" BOOLEAN NOT NULL,
-    "numero" INTEGER NOT NULL,
+    "numero" INTEGER,
     "criadoEm" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "pagamentoId" TEXT,
 
@@ -37,9 +37,19 @@ CREATE TABLE "public"."Pagamento" (
     "valor" DOUBLE PRECISION NOT NULL,
     "status" "public"."PagamentoStatus" NOT NULL DEFAULT 'PENDENTE',
     "metodo" TEXT NOT NULL,
+    "qrCodePix" TEXT,
     "confirmadoEm" TIMESTAMP(3),
 
     CONSTRAINT "Pagamento_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."Numero" (
+    "id" TEXT NOT NULL,
+    "contador" INTEGER NOT NULL DEFAULT 0,
+    "limite" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "Numero_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable

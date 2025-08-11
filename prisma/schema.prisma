@@ -29,7 +29,7 @@ model Participante {
   telefone    String
   email       String? // opcional
   aceitouLGPD Boolean
-  numero      Int      @unique
+  numero      Int?     @unique
   criadoEm    DateTime @default(now())
 
   pagamento   Pagamento? @relation(fields: [pagamentoId], references: [id])
@@ -43,8 +43,15 @@ model Pagamento {
   valor        Float
   status       PagamentoStatus @default(PENDENTE)
   metodo       String
+  qrCodePix    String?
   confirmadoEm DateTime?
   Participante Participante?
+}
+
+model Numero {
+  id       String @id @default(cuid())
+  contador Int    @default(0)
+  limite   Int    @default(0)
 }
 
 enum PagamentoStatus {
