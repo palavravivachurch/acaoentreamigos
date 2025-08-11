@@ -11,7 +11,7 @@ RUN apk update \
 
 WORKDIR /app
 
-RUN yarn install
+RUN npm install
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
 RUN \
