@@ -54,7 +54,7 @@ async function createPagamentoAsaas(participante: Participante) {
 
 async function checkWhatsapp(numero: string): Promise<boolean> {
     const res = await fetch(`/api/whatsapp?zap=${numero}`, {
-        headers: {'Cache-Control': 'no-cache'},
+        headers: {"Content-Type": "application/json"},
         method: 'GET'
     });
     return await res.json() as boolean;

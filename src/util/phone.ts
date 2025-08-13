@@ -61,20 +61,3 @@ export function toE164(input: string | null | undefined, opts: ToE164Options = {
 
     return candidate;
 }
-
-// ---------------- EXEMPLOS ----------------
-const samples: string[] = [
-    '(11) 99876-5432',      // BR local
-    '0 11 98765 4321',      // BR com zero tronco
-    '+55 (48) 99999-0000',  // já em internacional
-    '0044 20 7946 0018',    // "00" -> UK
-    '21 9 8888-7777',       // BR sem DDI/DDD leading zeros
-    '+1 (415) 555-2671',    // US ok
-    '351 912 345 678'       // PT sem '+'
-];
-
-for (const n of samples) {
-    console.log(n, '=>', toE164(n)); // default BR
-}
-console.log('PT override =>', toE164('48912 345 678', {defaultCountry: 'PT'}));
-console.log('US override =>', toE164('(415) 555-2671', {defaultCountry: 'US'}));

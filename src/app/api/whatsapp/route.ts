@@ -3,6 +3,7 @@ import axios from 'axios';
 
 
 export async function GET(request: NextRequest) {
+
     try {
         const url = new URL(request.url);
         let zap = url.searchParams.get('zap');
@@ -21,10 +22,14 @@ export async function GET(request: NextRequest) {
             })
         };
         let axiosResponse = await axios.request(config);
+        console.log(axiosResponse.data);
         return NextResponse.json(axiosResponse.data[0].exists, {
             status: 200
         });
     } catch (error) {
+        console.error(error);
+        console.log(process.env.EVO_URL)
+        console.log(process.env.EVO_INSTANCE)
         return NextResponse.json(
             {error: 'Failed to get admins', errorobj: error},
             {

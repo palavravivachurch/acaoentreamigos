@@ -48,7 +48,10 @@ export default function ParticiparPage() {
             return;
         }
 
-        if (form.telefone) {
+        setLoading(true);
+        setPagamento(null);
+
+        try {
             let numero = toE164(form.telefone, {defaultCountry: 'BR'});
             // @ts-ignore
             form.telefone = numero
@@ -58,12 +61,7 @@ export default function ParticiparPage() {
                 alert(t("alertWhatsappInvalido"));
                 return;
             }
-        }
 
-        setLoading(true);
-        setPagamento(null);
-
-        try {
             const res = await fetch("/api/pagamento", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
