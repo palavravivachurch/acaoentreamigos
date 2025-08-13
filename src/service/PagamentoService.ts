@@ -44,7 +44,7 @@ async function createPagamentoAbacate(participante: Participante) {
 async function createPagamentoAsaas(participante: Participante) {
     return await AsaasPayService.criarPixQRCode({
         billingType: "PIX",
-        customer: "cus_000006930852",
+        customer: "cus_000130283386",
         dueDate: formattedDueDateTomorrow(),
         value: 20.0,
         description: participante.nome + participante.id,
