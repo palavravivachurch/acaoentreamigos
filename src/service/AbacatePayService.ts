@@ -1,23 +1,20 @@
-async function criarPixQRCode(pix: Pagamentos.AbacatePIXRequest): Promise<Pagamentos.AbacatePIXResponse> {
-    const url = process.env.ABACATE_API + '/pixQrCode/create';
+import AbacatePay from "abacatepay-nodejs-sdk";
+import {
+  CreatePixQrCodeData,
+  IPixQrCode,
+} from "abacatepay-nodejs-sdk/dist/types";
 
-    const options: RequestInit = {
-        method: 'POST',
-        headers: {
-            Authorization: 'Bearer ' + process.env.ABACATE_KEY,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(pix),
-    };
+async function criarPixQRCode(pix: CreatePixQrCodeData): Promise<IPixQrCode> {
+  // @ts-ignore
+  let abacatePay = AbacatePay(process.env.ABACATE_KEY);
 
-    const response = await fetch(url, options);
+  const response = await abacatePay.pixQrCode.create(pix);
 
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Erro ao criar QR Code');
-    }
+  if (response.error !== null) {
+    throw new Error(response.error);
+  }
 
-    return await response.json()
+  return response.data;
 }
 
-export const AbacatePayService = {criarPixQRCode};
+export const AbacatePayService = { criarPixQRCode };
