@@ -69,4 +69,32 @@ declare namespace Pagamentos {
         pixCopiaECola?: string;  // código "copia e cola"
     }
 
+    interface AbacatePIXRequest {
+        "amount": number,
+        "expiresIn": number,
+        "description": string,
+        "customer"?: {
+            "name": string,
+            "cellphone": string,
+            "email": string,
+            "taxId": string
+        },
+        "metadata": { "externalId": string }
+    }
+
+    interface AbacatePIXResponse {
+        "data": {
+            "id": string,
+            "amount": number,
+            "status": "PENDING" | "EXPIRED" | "CANCELLED" | "PAID" | "REFUNDED",
+            "devMode": boolean,
+            "brCode": string,
+            "brCodeBase64": string,
+            "platformFee": number,
+            "createdAt": string,
+            "updatedAt": string,
+            "expiresAt": string
+        },
+        "error": null
+    }
 }
