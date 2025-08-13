@@ -5,10 +5,11 @@ async function criarPixQRCode(
     pix: IAsaasPayment,
 ): Promise<IAsaasPaymentResponse> {
     // @ts-ignore
-    let apiKey = `$${process.env.ASAAS_API_KEY}`;
-    const asaas = new AsaasClient(apiKey, {
-        sandbox: Boolean(process.env.ASAAS_API_TEST),
-    });
+    const apiKey = `$${process.env.ASAAS_API_KEY}`;
+    let asaas = new AsaasClient(apiKey);
+    if (process.env.ASAAS_API_TEST) {
+        asaas = new AsaasClient(apiKey, {sandbox: true});
+    }
 
     const response = await asaas.payments.new(pix);
     // @ts-ignore
