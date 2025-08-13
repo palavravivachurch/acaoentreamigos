@@ -13,8 +13,13 @@ import {
     Typography,
 } from "@mui/material";
 import {QRCode} from "react-qrcode-logo";
+import {PagamentoService} from "@/service/PagamentoService";
+import {toE164} from "@/util/phone";
+import {useLocale, useTranslations} from "next-intl";
 
 export default function ParticiparPage() {
+    const locale = useLocale(); // 👈 pega o locale atual
+    const t = useTranslations("participar"); // 👈 namespace das traduções
     const [form, setForm] = useState({
         nome: "",
         email: "",
@@ -39,8 +44,20 @@ export default function ParticiparPage() {
         e.preventDefault();
 
         if (!form.aceitouLGPD) {
-            alert("Você precisa aceitar os termos da LGPD para continuar.");
+            alert(t("alertLgpd"));
             return;
+        }
+
+        if (form.telefone) {
+            let numero = toE164(form.telefone, {defaultCountry: 'BR'});
+            // @ts-ignore
+            form.telefone = numero
+            // @ts-ignore
+            let isWpChecked = await PagamentoService.checkWhatsapp(numero);
+            if (!isWpChecked) {
+                alert(t("alertWhatsappInvalido"));
+                return;
+            }
         }
 
         setLoading(true);
@@ -69,16 +86,16 @@ export default function ParticiparPage() {
         <Container maxWidth="sm" sx={{py: 6}}>
             <Paper sx={{p: 4, boxShadow: 3}}>
                 <Typography variant="h4" fontWeight="bold" gutterBottom>
-                    Participar
+                    {t("titulo")}
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                    Preencha seus dados para receber as informações de contribuição.
+                    {t("descricao")}
                 </Typography>
 
                 <Box component="form" onSubmit={handleSubmit} mt={3}>
                     <TextField
                         fullWidth
-                        label="Nome"
+                        label={t("nome")}
                         name="nome"
                         value={form.nome}
                         onChange={handleChange}
@@ -88,7 +105,7 @@ export default function ParticiparPage() {
                     />
                     <TextField
                         fullWidth
-                        label="E-mail"
+                        label={t("email")}
                         name="email"
                         type="email"
                         value={form.email}
@@ -99,7 +116,7 @@ export default function ParticiparPage() {
                     />
                     <TextField
                         fullWidth
-                        label="Telefone/Whatsapp"
+                        label={t("telefone")}
                         name="telefone"
                         value={form.telefone}
                         onChange={handleChange}
@@ -125,7 +142,7 @@ export default function ParticiparPage() {
                                 lineHeight: 0.9,
                             },
                         }}
-                        label="Aceito os termos da LGPD, autorizando o uso e compartilhamento dos meus dados com instituições conforme previsto na legislação vigente."
+                        label={t("lgpd")}
                     />
 
                     <Box textAlign="center" mt={3}>
@@ -145,7 +162,7 @@ export default function ParticiparPage() {
                             {loading ? (
                                 <CircularProgress size={24} color="inherit"/>
                             ) : (
-                                "Enviar"
+                                t("botaoEnviar")
                             )}
                         </Button>
                     </Box>
@@ -160,11 +177,11 @@ export default function ParticiparPage() {
                         textAlign="center"
                     >
                         <Typography variant="h4" fontWeight="bold" gutterBottom>
-                            Dados para Contribuição
+                            {t("dadosPagamentoTitulo")}
                         </Typography>
                         <Typography variant="h4">Valor: R$ 20</Typography>
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
-                            Chave Pix:
+                            {t("chavePix")}:
                         </Typography>
                         <Typography sx={{
                             overflowWrap: 'break-word',
@@ -184,7 +201,7 @@ export default function ParticiparPage() {
                             onClick={() => navigator.clipboard.writeText(pagamento.qrCode)}
                             sx={{mt: 1}}
                         >
-                            Copiar Pix
+                            {t("copiarPix")}
                         </Button>
                         <Typography variant="h6" fontWeight="bold" gutterBottom>
                             QR Code:
@@ -199,11 +216,10 @@ export default function ParticiparPage() {
                         />
                         {/* Novo texto de validade */}
                         <Typography mt={2} color="text.secondary" fontWeight="bold">
-                            Código válido por 2 horas.
+                            {t("validade")}
                         </Typography>
                         <Typography mt={2} color="text.secondary" fontStyle="italic">
-                            Após a confirmação do pagamento, seu número será enviado via
-                            WhatsApp e/ou e-mail.
+                            {t("aposPagamento")}
                         </Typography>
                         {/* Botão para contato WhatsApp */}
                         <Button
@@ -218,7 +234,7 @@ export default function ParticiparPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Pagar em dinheiro? Fale conosco no WhatsApp
+                            {t("pagarDinheiro")}
                         </Button>
                     </Box>
                 )}

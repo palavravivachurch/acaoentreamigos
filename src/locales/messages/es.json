@@ -9,5 +9,25 @@
     "paymentMethods": "Formas de pago: Pix o efectivo",
     "aboutTitle": "Sobre Amor en Acción",
     "aboutDescription": "Amor en Acción es una institución que ofrece asistencia social, apoyo alimentario y proyectos educativos a familias que lo necesitan. Tu contribución es clave para que podamos continuar este trabajo de impacto social."
+  },
+  "participar": {
+    "titulo": "Participar",
+    "descricao": "Complete sus datos para recibir la información de contribución.",
+    "nome": "Nombre",
+    "email": "Correo electrónico",
+    "telefone": "Teléfono/WhatsApp",
+    "lgpd": "Acepto los términos de la Ley de Protección de Datos, autorizando el uso y compartición de mis datos con instituciones según lo previsto en la legislación vigente.",
+    "botaoEnviar": "Enviar",
+    "alertLgpd": "Debe aceptar los términos de la Ley de Protección de Datos para continuar.",
+    "alertWhatsappInvalido": "⚠️ Atención!\n\nEl número informado no es un WhatsApp válido.\nIngrese un número de celular con código de área para recibir por WhatsApp su mensaje con el número de la acción.",
+    "alertErro": "Ocurrió un error, inténtelo nuevamente.",
+    "dadosPagamentoTitulo": "Datos para Contribución",
+    "valor": "Valor",
+    "chavePix": "Clave Pix",
+    "copiarPix": "Copiar Pix",
+    "validade": "Código válido por 2 horas.",
+    "aposPagamento": "Después de la confirmación del pago, su número será enviado por WhatsApp y/o correo electrónico.",
+    "mensagemWhatsapp": "Hola, me gustaría realizar un pago en efectivo. ¿Podemos conversar?",
+    "pagarDinheiro": "¿Pagar en efectivo? Contáctenos por WhatsApp"
   }
 }
