@@ -2,6 +2,7 @@ import {AsaasClient, IAsaasPaymentResponse} from "asaas";
 import {Participante} from "@/generated/prisma";
 import {formattedDueDateTomorrow} from "@/util/date";
 import {parseTelefone} from "@/util/phone";
+import {buildPixDescription} from "@/util/generators";
 
 const VALOR_PIX = 20.0;
 const TIPO_COBRANCA = "PIX";
@@ -38,7 +39,7 @@ async function criarPixQRCode(
         customer: customerResponse.id,
         dueDate: formattedDueDateTomorrow(),
         value: VALOR_PIX,
-        description: participante.nome + participante.id,
+        description: buildPixDescription(participante),
         externalReference: participante.id,
     }));
     // @ts-ignore
