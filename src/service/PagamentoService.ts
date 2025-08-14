@@ -3,7 +3,6 @@ import {PagamentoRepository} from "@/db/PagamentoRepository";
 import {AbacatePayService} from "@/service/AbacatePayService";
 import {PagamentoStatus, Participante} from "@/generated/prisma";
 import {AsaasPayService} from "@/service/AsaasPayService";
-import {formattedDueDateTomorrow} from "@/util/date";
 
 export interface ParticipanteCreated {
     email: string;
@@ -43,14 +42,7 @@ async function createPagamentoAbacate(participante: Participante) {
 }
 
 async function createPagamentoAsaas(participante: Participante) {
-    return await AsaasPayService.criarPixQRCode({
-        billingType: "PIX",
-        customer: "cus_000130283386",
-        dueDate: formattedDueDateTomorrow(),
-        value: 20.0,
-        description: participante.nome + participante.id,
-        externalReference: participante.id,
-    });
+    return await AsaasPayService.criarPixQRCode(participante);
 }
 
 async function checkWhatsapp(numero: string): Promise<boolean> {

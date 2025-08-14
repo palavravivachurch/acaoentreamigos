@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
             })
         };
         let axiosResponse = await axios.request(config);
-        console.log(axiosResponse.data);
         return NextResponse.json(axiosResponse.data[0].exists, {
             status: 200
         });
