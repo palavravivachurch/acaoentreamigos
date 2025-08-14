@@ -215,8 +215,8 @@ export default function AcaoEntreAmigosPage() {
                 <Box mt={6} textAlign="center">
                     <Typography variant="caption">
                         Desenvolvido com ❤️ por{" "}
-                        <a href="https://gbl.dev.br">Gabriel Saldanha</a> – <a href='https://projetoelo.org'/> Projeto
-                        ELO ©{" "}
+                        <a href="https://gbl.dev.br">Gabriel Saldanha</a> – <a href='https://projetoelo.org'> Projeto
+                        ELO © </a>{" "}
                         {year || ""}
                     </Typography>
                 </Box>
