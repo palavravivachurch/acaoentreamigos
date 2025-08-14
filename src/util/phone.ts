@@ -61,3 +61,55 @@ export function toE164(input: string | null | undefined, opts: ToE164Options = {
 
     return candidate;
 }
+
+type TelefoneInfo = {
+    ddi: string;
+    ddd: string;
+    telefone: string;
+    telefoneFormatado: string;
+};
+
+const DDI_MAP: Record<string, string> = {
+    "1": "EUA/Canadá",
+    "44": "Reino Unido",
+    "49": "Alemanha",
+    "55": "Brasil",
+    // Você pode adicionar mais DDIs aqui
+};
+
+export function parseTelefone(numero: string): TelefoneInfo {
+    const numeros = numero.replace(/\D/g, "");
+
+    let ddi = "";
+    let ddd = "";
+    let telefone = "";
+
+    // Detecta o DDI correto usando a lista de DDIs
+    for (let i = 1; i <= 3; i++) {
+        const possivelDDI = numeros.slice(0, i);
+        if (DDI_MAP[possivelDDI]) {
+            ddi = possivelDDI;
+            break;
+        }
+    }
+
+    if (!ddi) {
+        throw new Error(`DDI não identificado no número: ${numero}`);
+    }
+
+    // Aqui ajusta o tamanho do DDD — padrão Brasil 2 dígitos, outros pode variar
+    // Exemplo: Brasil = 2 dígitos DDD, EUA = 3 dígitos area code
+    if (ddi === "1") {
+        // EUA/Canadá → código de área 3 dígitos
+        ddd = numeros.slice(ddi.length, ddi.length + 3);
+        telefone = numeros.slice(ddi.length + 3);
+    } else {
+        // Demais → código de área 2 dígitos
+        ddd = numeros.slice(ddi.length, ddi.length + 2);
+        telefone = numeros.slice(ddi.length + 2);
+    }
+
+    const telefoneFormatado = `(${ddd}) ${telefone}`;
+
+    return {ddi, ddd, telefone, telefoneFormatado};
+}

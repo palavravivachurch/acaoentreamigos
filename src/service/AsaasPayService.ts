@@ -1,6 +1,7 @@
 import {AsaasClient, IAsaasPaymentResponse} from "asaas";
 import {Participante} from "@/generated/prisma";
 import {formattedDueDateTomorrow} from "@/util/date";
+import {parseTelefone} from "@/util/phone";
 
 const VALOR_PIX = 20.0;
 const TIPO_COBRANCA = "PIX";
@@ -20,11 +21,14 @@ async function criarPixQRCode(
         if (customerList?.data[0]?.id) {
             customerResponse = customerList.data[0];
         } else {
+            let mobilePhone = parseTelefone(participante.telefone);
             customerResponse = await asaas.customers.new({
                 cpfCnpj: participante.cpfCnpj,
                 email: participante.email || "",
                 name: participante.nome,
-                mobilePhone: participante.telefone
+                mobilePhone: mobilePhone.ddd && mobilePhone.telefone
+                    ? mobilePhone.ddd + mobilePhone.telefone
+                    : ""
             });
         }
     }
