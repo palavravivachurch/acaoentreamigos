@@ -10,6 +10,7 @@ export interface ParticipanteCreated {
     nome: string;
     telefone: string;
     aceitouLGPD: boolean;
+    cpfCnpj?: string;
 }
 
 async function createPagamento(participante: ParticipanteCreated) {

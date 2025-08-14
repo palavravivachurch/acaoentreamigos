@@ -28,6 +28,7 @@
     "validade": "Código válido por 2 horas.",
     "aposPagamento": "Después de la confirmación del pago, su número será enviado por WhatsApp y/o correo electrónico.",
     "mensagemWhatsapp": "Hola, me gustaría realizar un pago en efectivo. ¿Podemos conversar?",
-    "pagarDinheiro": "¿Pagar en efectivo? Contáctenos por WhatsApp"
+    "pagarDinheiro": "¿Pagar en efectivo? Contáctenos por WhatsApp",
+    "alertCpfCnpjInvalido": "Por favor, introduzca un CPF o CNPJ válido o deje el campo en blanco."
   }
 }

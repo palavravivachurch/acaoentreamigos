@@ -28,6 +28,7 @@ model Participante {
   nome        String
   telefone    String
   email       String? // opcional
+  cpfCnpj     String?
   aceitouLGPD Boolean
   numero      Int?     @unique
   criadoEm    DateTime @default(now())

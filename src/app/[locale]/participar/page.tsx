@@ -16,6 +16,7 @@ import {QRCode} from "react-qrcode-logo";
 import {PagamentoService} from "@/service/PagamentoService";
 import {toE164} from "@/util/phone";
 import {useLocale, useTranslations} from "next-intl";
+import {formatCpfCnpj, isValidCpfCnpj} from "@/util/ssn";
 
 export default function ParticiparPage() {
     const locale = useLocale(); // 👈 pega o locale atual
@@ -24,8 +25,10 @@ export default function ParticiparPage() {
         nome: "",
         email: "",
         telefone: "",
+        cpfCnpj: "", // ✅ novo campo
         aceitouLGPD: false,
     });
+
     const [loading, setLoading] = useState(false);
     const [pagamento, setPagamento] = useState<null | { qrCode: string }>(null);
 
@@ -36,7 +39,12 @@ export default function ParticiparPage() {
         const {name, value, type, checked} = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]: type === "checkbox" ? checked : value,
+            [name]:
+                name === "cpfCnpj"
+                    ? formatCpfCnpj(value)
+                    : type === "checkbox"
+                        ? checked
+                        : value,
         }));
     };
 
@@ -45,6 +53,11 @@ export default function ParticiparPage() {
 
         if (!form.aceitouLGPD) {
             alert(t("alertLgpd"));
+            return;
+        }
+
+        if (form.cpfCnpj.trim() !== "" && !isValidCpfCnpj(form.cpfCnpj)) {
+            alert(t("alertCpfCnpjInvalido"));
             return;
         }
 
@@ -120,6 +133,15 @@ export default function ParticiparPage() {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        disabled={pagamento !== null}
+                    />
+                    <TextField
+                        fullWidth
+                        label={"CPF/CNPJ (Opcional)"} // adicionar a tradução correspondente
+                        name="cpfCnpj"
+                        value={form.cpfCnpj}
+                        onChange={handleChange}
+                        margin="normal"
                         disabled={pagamento !== null}
                     />
 
