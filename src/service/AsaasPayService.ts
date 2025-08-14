@@ -11,7 +11,7 @@ async function criarPixQRCode(
     // @ts-ignore
     const apiKey = `$${process.env.ASAAS_API_KEY}`;
     let asaas = new AsaasClient(apiKey);
-    if (Boolean(process.env.ASAAS_API_TEST)) {
+    if (process.env.ASAAS_API_TEST === "true") {
         asaas = new AsaasClient(apiKey, {sandbox: true});
     }
     let customerResponse = {id: "cus_000130283386"};
