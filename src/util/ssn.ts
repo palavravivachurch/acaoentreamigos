@@ -75,3 +75,11 @@ export function formatCpfCnpj(value: string) {
             .slice(0, 18); // máximo com pontuação
     }
 }
+
+export function isValidCPF(cpf: string) {
+    return /^\d{11}$/.test(cpf);
+}
+
+export function isValidCNPJ(cnpj: string) {
+    return /^\d{14}$/.test(cnpj);
+}

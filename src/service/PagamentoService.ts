@@ -3,6 +3,7 @@ import {PagamentoRepository} from "@/db/PagamentoRepository";
 import {AbacatePayService} from "@/service/AbacatePayService";
 import {PagamentoStatus, Participante} from "@/generated/prisma";
 import {AsaasPayService} from "@/service/AsaasPayService";
+import {BBService} from "@/service/BBService";
 
 export interface ParticipanteCreated {
     email: string;
@@ -16,7 +17,6 @@ async function createPagamento(participante: ParticipanteCreated) {
     const participanteCreated =
         await ParticipanteRepository.addParticipante(participante);
     const asaasPIXResponse = await createPagamentoAsaas(participanteCreated);
-    // const abacatePIXResponse = await createPagamentoAbacate(participanteCreated);
 
     const pagamentoCreated = await PagamentoRepository.addPagamento({
         participanteId: participanteCreated.id,
@@ -43,6 +43,10 @@ async function createPagamentoAbacate(participante: Participante) {
 
 async function createPagamentoAsaas(participante: Participante) {
     return await AsaasPayService.criarPixQRCode(participante);
+}
+
+async function createPagamentoBBPix(participante: Participante) {
+    return await BBService.cobrancaImediata(participante);
 }
 
 async function checkWhatsapp(numero: string): Promise<boolean> {

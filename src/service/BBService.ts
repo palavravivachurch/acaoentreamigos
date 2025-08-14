@@ -1,43 +1,71 @@
+import {Participante} from "@/generated/prisma";
+import {Constants} from "@/util/constants";
+import {buildPixDescription} from "@/util/generators";
+import {isValidCNPJ, isValidCPF} from "@/util/ssn";
+
 const BB_API_BASE = process.env.BB_API_BASE; // homologação sem mTLS
 const BB_APP_KEY = process.env.BB_APP_KEY!; // coloque no .env
-const BB_TOKEN = process.env.BB_TOKEN!; // coloque no .env
+
+async function getAccessToken() {
+    const basicAuth = Buffer.from(`${process.env.BB_CLIENT_ID}:${process.env.BB_CLIENT_SECRET}`).toString("base64");
+
+    const resp = await fetch(`${process.env.BB_OAUTH_URL}?grant_type=client_credentials&scope=cob.write`, {
+        method: "POST",
+        headers: {
+            Authorization: `Basic ${basicAuth}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+
+    if (!resp.ok) {
+        throw new Error(`Erro ao obter token: ${resp.status} ${await resp.text()}`);
+    }
+
+    const data = await resp.json();
+    return data.access_token as string;
+}// coloque no .env
 
 async function cobrancaImediata(
-  cobranca: Pagamentos.BBCobrancaRequest,
+    participante: Participante,
 ): Promise<Pagamentos.BBCobrancaResponse> {
-  const body = {
-    calendario: {
-      expiracao: 3600, // 1 hora
-    },
-    devedor: {
-      cpf: cobranca.devedor?.cpf || undefined,
-      nome: cobranca.devedor?.nome || undefined,
-    },
-    valor: {
-      original: cobranca.valor.original,
-      modalidadeAlteracao: 0,
-    },
-    chave: cobranca.chave,
-    solicitacaoPagador: "Pagamento via Pix",
-  };
+    const token = await getAccessToken();
 
-  const response = await fetch(
-    `${BB_API_BASE}/cob/${gerarTxidComPrefixo()}?gw-dev-app-key=${BB_APP_KEY}`,
-    {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${BB_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    },
-  );
+    const payload = {
+        devedor: null,
+        calendario: {expiracao: 7200},
+        valor: {original: Constants.VALOR},
+        chave: "00955233917",
+        solicitacaoPagador: buildPixDescription(participante),
+        infoAdicionais: [
+            {nome: "Nome", valor: participante.nome},
+            {nome: "Email", valor: participante.email},
+            {nome: "Telefone", valor: participante.telefone},
+        ],
+    };
 
-  if (!response.ok) {
-    const text = await response.text();
-    console.error("Erro ao chamar API do BB Pix:", text);
-    throw new Error("Erro ao chamar API do BB Pix: " + text);
-  }
 
-  return await response.json();
+    if (participante.cpfCnpj) {
+        const cleanDoc = participante.cpfCnpj.replace(/\D/g, ""); // remove pontos, traços e barras
+
+        if (isValidCPF(cleanDoc)) {
+            // @ts-ignore
+            payload.devedor = {nome: participante.nome, cpf: cleanDoc};
+        } else if (isValidCNPJ(cleanDoc)) {
+            // @ts-ignore
+            payload.devedor = {nome: participante.nome, cnpj: cleanDoc}
+        }
+    }
+
+    const resp = await fetch(`${BB_API_BASE}?gw-dev-app-key=${BB_APP_KEY}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+    });
+
+    return await resp.json();
 }
+
+export const BBService = {cobrancaImediata};
