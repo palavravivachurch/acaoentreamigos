@@ -10,7 +10,7 @@ const TIPO_COBRANCA = "PIX";
 async function criarPixQRCode(
     participante: Participante,
 ): Promise<IAsaasPaymentResponse> {
-    // @ts-ignore
+    // @ts-expect-error
     const apiKey = `$${process.env.ASAAS_API_KEY}`;
     let asaas = new AsaasClient(apiKey);
     if (process.env.ASAAS_API_TEST === "true") {
@@ -22,9 +22,10 @@ async function criarPixQRCode(
         if (customerList?.data[0]?.id) {
             customerResponse = customerList.data[0];
         } else {
-            let mobilePhone = parseTelefone(participante.telefone);
+            const mobilePhone = parseTelefone(participante.telefone);
             customerResponse = await asaas.customers.new({
                 cpfCnpj: participante.cpfCnpj,
+                notificationDisabled: true,
                 email: participante.email || "",
                 name: participante.nome,
                 mobilePhone: mobilePhone.ddd && mobilePhone.telefone
